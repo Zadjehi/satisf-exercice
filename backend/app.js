@@ -1,8 +1,4 @@
-// ========================================
-// CONFIGURATION EXPRESS PRINCIPALE - VERSION CORRIGÉE POUR TABLEAU DYNAMIQUE
-// Fichier: backend/app.js
-// ========================================
-
+// Configuration app.js
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -18,16 +14,13 @@ const serviceRoutes = require('./routes/serviceRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes'); 
 const notificationRoutes = require('./routes/notificationRoutes');
 
-
 // Import des middlewares
 const { sanitiserDonnees } = require('./middleware/validation');
 
 // Créer l'application Express
 const app = express();
 
-// ========================================
-// MIDDLEWARES DE SÉCURITÉ
-// ========================================
+// Middlewares de sécurité
 
 // Helmet pour sécuriser les en-têtes HTTP
 app.use(helmet({
@@ -76,9 +69,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// ========================================
-// LIMITATION DU TAUX DE REQUÊTES
-// ========================================
+// Limitation du taux de requêtes
 
 // Limitation générale
 const limitationGenerale = rateLimit({
@@ -119,9 +110,7 @@ const limitationEnquetes = rateLimit({
 // Appliquer la limitation générale
 app.use(limitationGenerale);
 
-// ========================================
-// MIDDLEWARES DE PARSING
-// ========================================
+// Middlewares de parsing
 
 // Parser JSON avec limite de taille
 app.use(express.json({ 
@@ -138,9 +127,7 @@ app.use(express.urlencoded({
 // Middleware de sanitisation des données
 app.use(sanitiserDonnees);
 
-// ========================================
-// MIDDLEWARES DE LOGGING
-// ========================================
+// Middlewares de logging
 
 // Logger personnalisé pour les requêtes
 app.use((req, res, next) => {
@@ -155,9 +142,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// ========================================
-// ROUTES PRINCIPALES - VERSION CORRIGÉE
-// ========================================
+// Routes principales
 
 // Route de santé de l'API
 app.get('/api/health', (req, res) => {
@@ -173,10 +158,10 @@ app.get('/api/health', (req, res) => {
 // Routes des services (doit être avant les enquêtes)
 app.use('/api/services', serviceRoutes);
 
-//Routes des notifications (APRÈS les routes auth)
+// Routes des notifications (après les routes auth)
 app.use('/api/notifications', notificationRoutes);
 
-// 🔥 CORRECTION PRINCIPALE : Routes d'authentification en premier
+// Routes d'authentification en premier
 app.use('/api/auth', (req, res, next) => {
     // Appliquer limitation stricte pour connexion
     if (req.method === 'POST' && req.path === '/connexion') {
@@ -185,13 +170,13 @@ app.use('/api/auth', (req, res, next) => {
     next();
 }, authRoutes);
 
-// 🔥 ROUTE CRITIQUE : Dashboard stats (AVANT les statistiques générales)
+// Dashboard stats (avant les statistiques générales)
 app.use('/api/dashboard', dashboardRoutes);
 
-// Routes des statistiques (APRÈS dashboard pour éviter les conflits)
+// Routes des statistiques (après dashboard pour éviter les conflits)
 app.use('/api/statistiques', statistiquesRoutes);
 
-// 🔥 ROUTE CRITIQUE : Enquêtes pour le tableau dynamique
+// Enquêtes pour le tableau dynamique
 app.use('/api/enquetes', (req, res, next) => {
     // Appliquer limitation spéciale pour POST (création d'enquête)
     if (req.method === 'POST' && req.path === '/') {
@@ -200,9 +185,7 @@ app.use('/api/enquetes', (req, res, next) => {
     next();
 }, enqueteRoutes);
 
-// ========================================
-// ROUTES DE TEST POUR DEBUGGING
-// ========================================
+// Routes de test pour debugging
 
 // Route de test pour vérifier l'API des enquêtes
 app.get('/api/test/enquetes', (req, res) => {
@@ -230,9 +213,7 @@ app.get('/api/test/dashboard', (req, res) => {
     });
 });
 
-// ========================================
-// SERVIR LES FICHIERS STATIQUES (FRONTEND)
-// ========================================
+// Servir les fichiers statiques (frontend)
 
 // Servir le frontend depuis le dossier frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
@@ -248,13 +229,11 @@ app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, '../frontend/pages/accueil/index.html'));
 });
 
-// ========================================
-// GESTION DES ERREURS
-// ========================================
+// Gestion des erreurs
 
 // Middleware de gestion des erreurs 404 pour les routes API
 app.use('/api/*', (req, res) => {
-    console.log(`❌ Endpoint API non trouvé: ${req.method} ${req.originalUrl}`);
+    console.log(`Endpoint API non trouvé: ${req.method} ${req.originalUrl}`);
     
     res.status(404).json({
         succes: false,
@@ -268,7 +247,7 @@ app.use('/api/*', (req, res) => {
 
 // Middleware de gestion des erreurs globales
 app.use((err, req, res, next) => {
-    console.error('❌ Erreur serveur:', err);
+    console.error('Erreur serveur:', err);
 
     // Erreur de parsing JSON
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
@@ -311,9 +290,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-// ========================================
-// GESTION DES SIGNAUX DE PROCESSUS
-// ========================================
+// Gestion des signaux de processus
 
 // Gestion propre de l'arrêt du serveur
 process.on('SIGTERM', () => {

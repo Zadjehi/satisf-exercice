@@ -4,7 +4,7 @@ const Utilisateur = require('../modeles/Utilisateur');
 require('dotenv').config();
 
 /**
- * Middleware de vérification d'authentification - CORRIGÉ
+ * Middleware de vérification d'authentification
  */
 const verifierAuthentification = async (req, res, next) => {
     try {
@@ -14,7 +14,7 @@ const verifierAuthentification = async (req, res, next) => {
         let utilisateur = null;
         let methodeAuth = null;
 
-        console.log('🔐 Vérification authentification:', { 
+        console.log('Vérification authentification:', { 
             hasToken: !!authHeader, 
             hasSession: !!sessionId 
         });
@@ -23,9 +23,9 @@ const verifierAuthentification = async (req, res, next) => {
             const token = authHeader.substring(7);
             try {
                 const tokenDecode = verifierToken(token);
-                console.log('🔍 Token décodé:', tokenDecode);
+                console.log('Token décodé:', tokenDecode);
 
-                // CORRECTION: Cas SuperAdmin - utiliser le bon champ
+                // Cas SuperAdmin - utiliser le bon champ
                 if (
                     tokenDecode.nomUtilisateur === process.env.SUPERADMIN_USERNAME &&
                     tokenDecode.role === process.env.SUPERADMIN_ROLE
@@ -39,9 +39,9 @@ const verifierAuthentification = async (req, res, next) => {
                         email: process.env.SUPERADMIN_USERNAME
                     };
                     methodeAuth = 'JWT';
-                    console.log('✅ SuperAdmin authentifié via JWT');
+                    console.log('SuperAdmin authentifié via JWT');
                 } else {
-                    // Utilisateur normal - CORRECTION: utiliser le bon champ "id"
+                    // Utilisateur normal - utiliser le bon champ "id"
                     utilisateur = {
                         id_utilisateur: tokenDecode.id,
                         nom_utilisateur: tokenDecode.nomUtilisateur,
@@ -50,10 +50,10 @@ const verifierAuthentification = async (req, res, next) => {
                         role: tokenDecode.role
                     };
                     methodeAuth = 'JWT';
-                    console.log('✅ Utilisateur normal authentifié via JWT');
+                    console.log('Utilisateur normal authentifié via JWT');
                 }
             } catch (erreurToken) {
-                console.log('❌ Token JWT invalide:', erreurToken.message);
+                console.log('Token JWT invalide:', erreurToken.message);
                 // Continue pour essayer la session
             }
         }
@@ -64,15 +64,15 @@ const verifierAuthentification = async (req, res, next) => {
                 if (session) {
                     utilisateur = session.utilisateur;
                     methodeAuth = 'Session';
-                    console.log('✅ Utilisateur authentifié via session');
+                    console.log('Utilisateur authentifié via session');
                 }
             } catch (erreurSession) {
-                console.log('❌ Session invalide:', erreurSession.message);
+                console.log('Session invalide:', erreurSession.message);
             }
         }
 
         if (!utilisateur) {
-            console.log('❌ Aucune authentification valide trouvée');
+            console.log('Aucune authentification valide trouvée');
             return res.status(401).json({
                 succes: false,
                 message: 'Accès non autorisé - Authentification requise',
@@ -85,7 +85,7 @@ const verifierAuthentification = async (req, res, next) => {
             try {
                 const utilisateurActuel = await Utilisateur.obtenirUtilisateurParId(utilisateur.id_utilisateur);
                 if (!utilisateurActuel) {
-                    console.log('❌ Utilisateur non trouvé en base');
+                    console.log('Utilisateur non trouvé en base');
                     return res.status(401).json({
                         succes: false,
                         message: 'Utilisateur non trouvé',
@@ -93,7 +93,7 @@ const verifierAuthentification = async (req, res, next) => {
                     });
                 }
                 if (!utilisateurActuel.actif) {
-                    console.log('❌ Utilisateur désactivé');
+                    console.log('Utilisateur désactivé');
                     return res.status(401).json({
                         succes: false,
                         message: 'Compte utilisateur désactivé',
@@ -101,18 +101,18 @@ const verifierAuthentification = async (req, res, next) => {
                     });
                 }
             } catch (erreurDB) {
-                console.log('❌ Erreur vérification utilisateur en DB:', erreurDB.message);
+                console.log('Erreur vérification utilisateur en DB:', erreurDB.message);
                 // Pour SuperAdmin ou en cas d'erreur DB, continuer
             }
         }
 
         req.utilisateur = utilisateur;
         req.methodeAuth = methodeAuth;
-        console.log('✅ Authentification réussie pour:', utilisateur.nom_utilisateur, 'via', methodeAuth);
+        console.log('Authentification réussie pour:', utilisateur.nom_utilisateur, 'via', methodeAuth);
         next();
 
     } catch (erreur) {
-        console.error('❌ Erreur middleware authentification:', erreur);
+        console.error('Erreur middleware authentification:', erreur);
         res.status(500).json({
             succes: false,
             message: 'Erreur lors de la vérification d\'authentification',

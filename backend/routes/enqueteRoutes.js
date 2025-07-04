@@ -1,21 +1,15 @@
-// ========================================
-// ROUTES ENQUÊTES - VERSION CORRIGÉE FINALE
-// Fichier: backend/routes/enqueteRoutes.js
-// ========================================
-
+// Routes Enquêtes
 const express = require('express');
 const router = express.Router();
 const EnqueteControleur = require('../controleurs/enqueteControleur');
 const { verifierAuthentification } = require('../middleware/authentification');
 const { 
-    validerDonneesEnquete,  // ✅ CORRECTION: Nom correct de la fonction
+    validerDonneesEnquete,
     validerPagination,
     sanitiserDonnees
 } = require('../middleware/validation');
 
-// ========================================
-// MIDDLEWARE DE VALIDATION ID SIMPLE (car validerIdNumerique n'existe pas)
-// ========================================
+// Middleware de validation ID simple
 const validerIdNumerique = (req, res, next) => {
     const id = parseInt(req.params.id);
     if (isNaN(id) || id < 1) {
@@ -27,12 +21,10 @@ const validerIdNumerique = (req, res, next) => {
     next();
 };
 
-// ========================================
-// ROUTES PUBLIQUES (sans authentification)
-// ========================================
+// Routes publiques (sans authentification)
 
 /**
- * ✅ CORRECTION - Créer une nouvelle enquête de satisfaction avec validation
+ * Créer une nouvelle enquête de satisfaction avec validation
  * POST /api/enquetes
  */
 router.post('/', sanitiserDonnees, validerDonneesEnquete, EnqueteControleur.creerEnquete);
@@ -44,17 +36,15 @@ router.post('/', sanitiserDonnees, validerDonneesEnquete, EnqueteControleur.cree
 router.get('/services', EnqueteControleur.obtenirServices);
 
 /**
- * ✅ CORRECTION - Valider les données d'une enquête avant soumission
+ * Valider les données d'une enquête avant soumission
  * POST /api/enquetes/valider
  */
 router.post('/valider', sanitiserDonnees, validerDonneesEnquete, EnqueteControleur.validerDonnees);
 
-// ========================================
-// ROUTES PROTÉGÉES (avec authentification)
-// ========================================
+// Routes protégées (avec authentification)
 
 /**
- * ✅ CORRECTION - Obtenir toutes les enquêtes avec pagination et validation
+ * Obtenir toutes les enquêtes avec pagination et validation
  * GET /api/enquetes?page=1&limite=10&recherche=nom&statut=Satisfait&raison=Information
  */
 router.get('/', 
@@ -70,7 +60,7 @@ router.get('/',
 router.get('/total', verifierAuthentification, EnqueteControleur.obtenirTotalEnquetes);
 
 /**
- * ✅ CORRECTION - Obtenir une enquête spécifique par ID avec validation
+ * Obtenir une enquête spécifique par ID avec validation
  * GET /api/enquetes/:id
  */
 router.get('/:id', 
@@ -86,7 +76,7 @@ router.get('/:id',
 router.post('/filtrer', verifierAuthentification, EnqueteControleur.filtrerEnquetes);
 
 /**
- * ✅ CORRECTION - Supprimer une enquête avec validation (admin seulement)
+ * Supprimer une enquête avec validation (admin seulement)
  * DELETE /api/enquetes/:id
  */
 router.delete('/:id', 

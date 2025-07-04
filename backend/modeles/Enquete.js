@@ -1,15 +1,11 @@
-// ========================================
-// MODÈLE ENQUÊTE AVEC NOTIFICATIONS - VERSION MODIFIÉE
-// Fichier: backend/modeles/Enquete.js (à remplacer)
-// ========================================
-
+// Modèle Enquête avec notifications
 const { executerRequete, executerRequetePaginee, executerRequeteSimple, executerTransaction } = require('../config/database');
-const Notification = require('./Notification'); // 🔔 AJOUT: Import du modèle Notification
+const Notification = require('./Notification');
 
 class Enquete {
 
     /**
-     * 🔔 MÉTHODE MODIFIÉE: Crée une nouvelle enquête de satisfaction avec notification
+     * Crée une nouvelle enquête de satisfaction avec notification
      * @param {Object} donneesEnquete - Données de l'enquête
      * @returns {Promise<Object>} Résultat de l'insertion
      */
@@ -47,11 +43,11 @@ class Enquete {
         ];
 
         try {
-            console.log('💾 Insertion enquête...');
+            console.log('Insertion enquête...');
             const resultat = await executerRequete(requete, parametres);
-            console.log('✅ Enquête insérée, ID:', resultat.insertId);
+            console.log('Enquête insérée, ID:', resultat.insertId);
             
-            // 🔔 NOUVEAU: Créer une notification après insertion de l'enquête
+            // Créer une notification après insertion de l'enquête
             try {
                 // Récupérer les infos du service pour la notification
                 const [service] = await executerRequete(
@@ -73,11 +69,11 @@ class Enquete {
 
                 // Créer la notification
                 await Notification.creerNotificationNouvelleEnquete(donneesNotification);
-                console.log('🔔 Notification créée pour la nouvelle enquête');
+                console.log('Notification créée pour la nouvelle enquête');
 
             } catch (erreurNotification) {
                 // Ne pas faire échouer l'enquête si la notification échoue
-                console.error('⚠️ Erreur création notification (enquête créée quand même):', erreurNotification.message);
+                console.error('Erreur création notification (enquête créée quand même):', erreurNotification.message);
             }
             
             return {
@@ -86,35 +82,35 @@ class Enquete {
                 message: 'Enquête créée avec succès'
             };
         } catch (erreur) {
-            console.error('❌ Erreur insertion enquête:', erreur);
+            console.error('Erreur insertion enquête:', erreur);
             throw new Error(`Erreur lors de la création de l'enquête: ${erreur.message}`);
         }
     }
 
     /**
-     * ✅ CORRECTION FINALE - Récupère toutes les enquêtes avec pagination
+     * Récupère toutes les enquêtes avec pagination
      * @param {number} page - Numéro de page (défaut: 1)
      * @param {number} limite - Nombre d'enquêtes par page (défaut: 20)
      * @returns {Promise<Object>} Liste des enquêtes avec pagination
      */
     static async obtenirToutesEnquetes(page = 1, limite = 20) {
         try {
-            console.log(`📋 Récupération enquêtes - Page: ${page}, Limite: ${limite}`);
+            console.log(`Récupération enquêtes - Page: ${page}, Limite: ${limite}`);
             
-            // ÉTAPE 1: Compter le total
+            // Compter le total
             const requeteTotal = `SELECT COUNT(*) as total FROM enquetes`;
             const [total] = await executerRequete(requeteTotal);
             
-            console.log(`📊 Total enquêtes dans la base: ${total.total}`);
+            console.log(`Total enquêtes dans la base: ${total.total}`);
             
-            // ÉTAPE 2: Validation et calcul des paramètres de pagination
+            // Validation et calcul des paramètres de pagination
             const pageNumber = Math.max(1, parseInt(page) || 1);
             const limiteNumber = Math.max(1, Math.min(100, parseInt(limite) || 20));
             const offset = (pageNumber - 1) * limiteNumber;
             
-            console.log(`🔢 Pagination: page=${pageNumber}, limite=${limiteNumber}, offset=${offset}`);
+            console.log(`Pagination: page=${pageNumber}, limite=${limiteNumber}, offset=${offset}`);
 
-            // ÉTAPE 3: ✅ SOLUTION DÉFINITIVE - Requête avec LIMIT/OFFSET intégrés
+            // Requête avec LIMIT/OFFSET intégrés
             const requeteComplete = `
                 SELECT 
                     e.id_enquete,
@@ -137,12 +133,12 @@ class Enquete {
                 LIMIT ${limiteNumber} OFFSET ${offset}
             `;
 
-            console.log('📝 Exécution de la requête paginée...');
+            console.log('Exécution de la requête paginée...');
             
-            // ÉTAPE 4: Exécution avec la fonction simple (pas de paramètres préparés)
+            // Exécution avec la fonction simple (pas de paramètres préparés)
             const enquetes = await executerRequeteSimple(requeteComplete);
             
-            console.log(`✅ ${enquetes.length} enquêtes récupérées pour la page ${pageNumber}`);
+            console.log(`${enquetes.length} enquêtes récupérées pour la page ${pageNumber}`);
 
             return {
                 enquetes: enquetes,
@@ -154,7 +150,7 @@ class Enquete {
                 }
             };
         } catch (erreur) {
-            console.error('❌ Erreur récupération enquêtes:', erreur);
+            console.error('Erreur récupération enquêtes:', erreur);
             throw new Error(`Erreur lors de la récupération des enquêtes: ${erreur.message}`);
         }
     }
@@ -244,7 +240,7 @@ class Enquete {
      */
     static async obtenirStatistiques() {
         try {
-            console.log('📊 Calcul des statistiques globales...');
+            console.log('Calcul des statistiques globales...');
 
             // Statistiques de satisfaction
             const statsSatisfaction = await executerRequete(`
@@ -314,7 +310,7 @@ class Enquete {
                 FROM enquetes
             `);
 
-            console.log('✅ Statistiques calculées:', {
+            console.log('Statistiques calculées:', {
                 satisfaction: statsSatisfaction.length,
                 services: statsServices.length,
                 raisons: statsRaisons.length,
@@ -330,7 +326,7 @@ class Enquete {
                 recentes: statsRecentes
             };
         } catch (erreur) {
-            console.error('❌ Erreur calcul statistiques:', erreur);
+            console.error('Erreur calcul statistiques:', erreur);
             throw new Error(`Erreur lors du calcul des statistiques: ${erreur.message}`);
         }
     }
@@ -344,7 +340,7 @@ class Enquete {
             const [resultat] = await executerRequete('SELECT COUNT(*) as total FROM enquetes');
             return resultat.total || 0;
         } catch (erreur) {
-            console.error('❌ Erreur comptage total:', erreur);
+            console.error('Erreur comptage total:', erreur);
             return 0;
         }
     }
@@ -362,7 +358,7 @@ class Enquete {
             `);
             return parseFloat(resultat.taux_satisfaction) || 0;
         } catch (erreur) {
-            console.error('❌ Erreur calcul satisfaction:', erreur);
+            console.error('Erreur calcul satisfaction:', erreur);
             return 0;
         }
     }
@@ -386,7 +382,7 @@ class Enquete {
                 LIMIT 6
             `);
         } catch (erreur) {
-            console.error('❌ Erreur stats mensuelles:', erreur);
+            console.error('Erreur stats mensuelles:', erreur);
             return [];
         }
     }
@@ -489,7 +485,7 @@ class Enquete {
             erreurs.push('Service obligatoire');
         }
 
-        // Validation des commentaires et recommandations (optionnels maintenant)
+        // Validation des commentaires et recommandations (optionnels)
         if (donneesEnquete.commentaires && donneesEnquete.commentaires.length > 1000) {
             erreurs.push('Commentaires trop longs (maximum 1000 caractères)');
         }

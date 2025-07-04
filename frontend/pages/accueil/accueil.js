@@ -1,8 +1,4 @@
-// ========================================
-// SCRIPT PAGE D'ACCUEIL - VERSION CORRIGÉE
-// Fichier: frontend/pages/accueil/accueil.js
-// ========================================
-
+// Script Page d'Accueil
 class AccueilPage {
     constructor() {
         this.apiBaseUrl = 'http://localhost:5000/api';
@@ -22,7 +18,7 @@ class AccueilPage {
         this.setupEventListeners();
         this.startAnimations();
         this.setupScrollEffects();
-        this.checkAdminAccess(); // AJOUT: Vérification de l'accès admin
+        this.checkAdminAccess();
     }
 
     /**
@@ -42,7 +38,7 @@ class AccueilPage {
             });
         }
 
-        // AJOUT: Gestion du bouton administration
+        // Gestion du bouton administration
         const adminLink = document.querySelector('.admin-link');
         if (adminLink) {
             adminLink.addEventListener('click', (e) => {
@@ -56,14 +52,14 @@ class AccueilPage {
         // Animations au scroll
         this.setupScrollAnimations();
 
-        // AJOUT: Vérification périodique du statut de connexion
+        // Vérification périodique du statut de connexion
         setInterval(() => {
             this.checkAdminAccess();
         }, 60000); // Toutes les minutes
     }
 
     /**
-     * Vérifie l'accès administrateur - CORRIGÉ
+     * Vérifie l'accès administrateur
      */
     checkAdminAccess() {
         const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
@@ -75,14 +71,14 @@ class AccueilPage {
         if (token && userData) {
             try {
                 const user = JSON.parse(userData);
-                // CORRECTION: Lien corrigé vers le tableau de bord
+                // Lien vers le tableau de bord
                 adminLink.href = '/pages/tableau-de-bord/index.html';
                 adminLink.innerHTML = `
                     <i class="fas fa-tachometer-alt" aria-hidden="true"></i> 
                     Tableau de bord (${user.nomUtilisateur || user.username})
                 `;
                 adminLink.title = `Connecté en tant que ${user.nomUtilisateur || user.username}`;
-                console.log('👤 Utilisateur connecté:', user.nomUtilisateur || user.username);
+                console.log('Utilisateur connecté:', user.nomUtilisateur || user.username);
             } catch (error) {
                 console.error('Erreur lors de la lecture des données utilisateur:', error);
                 this.resetAdminLink();
@@ -94,12 +90,12 @@ class AccueilPage {
     }
 
     /**
-     * Remet le lien admin à son état par défaut - CORRIGÉ
+     * Remet le lien admin à son état par défaut
      */
     resetAdminLink() {
         const adminLink = document.querySelector('.admin-link');
         if (adminLink) {
-            // CORRECTION: Lien corrigé vers la connexion
+            // Lien vers la connexion
             adminLink.href = '/pages/connexion-admin/index.html';
             adminLink.innerHTML = `
                 <i class="fas fa-lock" aria-hidden="true"></i> 
@@ -110,7 +106,7 @@ class AccueilPage {
     }
 
     /**
-     * Gère le clic sur le lien administration - NOUVEAU
+     * Gère le clic sur le lien administration
      */
     handleAdminAccess(event) {
         const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
@@ -124,14 +120,14 @@ class AccueilPage {
             }
             
             // Token valide - laisser la navigation continuer
-            console.log('🔓 Accès au tableau de bord autorisé');
+            console.log('Accès au tableau de bord autorisé');
             
             if (typeof showNotification === 'function') {
                 showNotification('Redirection vers le tableau de bord...', 'info');
             }
         } else {
             // Pas d'utilisateur connecté - redirection vers la connexion
-            console.log('🔒 Redirection vers la page de connexion');
+            console.log('Redirection vers la page de connexion');
             
             if (typeof showNotification === 'function') {
                 showNotification('Redirection vers la connexion...', 'info');
@@ -140,7 +136,7 @@ class AccueilPage {
     }
 
     /**
-     * Vérifie si le token est encore valide - NOUVEAU
+     * Vérifie si le token est encore valide
      */
     isTokenValid(token) {
         try {
@@ -160,7 +156,7 @@ class AccueilPage {
     }
 
     /**
-     * Gère l'expiration de session - CORRIGÉ
+     * Gère l'expiration de session
      */
     handleExpiredSession() {
         // Nettoyer les données expirées
@@ -176,7 +172,7 @@ class AccueilPage {
             showNotification('Session expirée. Veuillez vous reconnecter.', 'warning');
         }
         
-        // CORRECTION: Lien corrigé pour la redirection
+        // Redirection vers la connexion
         setTimeout(() => {
             window.location.href = '/pages/connexion-admin/index.html';
         }, 2000);
@@ -352,7 +348,7 @@ class AccueilPage {
             if (hero) {
                 const heroRect = hero.getBoundingClientRect();
                 if (heroRect.bottom > 0) {
-                    const parallaxValue = scrolled * 0.3; // Réduit l'effet
+                    const parallaxValue = scrolled * 0.3;
                     hero.style.transform = `translateY(${parallaxValue}px)`;
                 }
             }
@@ -439,7 +435,7 @@ class AccueilPage {
     }
 
     /**
-     * NOUVEAU: Déconnexion rapide depuis l'accueil
+     * Déconnexion rapide depuis l'accueil
      */
     quickLogout() {
         if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
@@ -456,14 +452,12 @@ class AccueilPage {
                 showNotification('Vous avez été déconnecté avec succès', 'success');
             }
             
-            console.log('🔓 Déconnexion effectuée depuis l\'accueil');
+            console.log('Déconnexion effectuée depuis l\'accueil');
         }
     }
 }
 
-// ========================================
-// INITIALISATION ET RESTE DU CODE...
-// ========================================
+// Initialisation et fonctions globales
 
 // Attendre que le DOM soit chargé
 document.addEventListener('DOMContentLoaded', () => {
@@ -479,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Vérifier l'API au chargement
     accueilPage.checkApiHealth();
     
-    console.log('✅ Page d\'accueil initialisée avec succès');
+    console.log('Page d\'accueil initialisée avec succès');
 });
 
 // Export global pour debug

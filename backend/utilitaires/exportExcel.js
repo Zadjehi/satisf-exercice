@@ -1,8 +1,4 @@
-// ========================================
-// UTILITAIRES EXPORT EXCEL/CSV
-// Fichier: backend/utilitaires/exportExcel.js
-// ========================================
-
+// Utilitaires Export Excel/CSV
 const XLSX = require('xlsx');
 const { formaterDateHeureFrancaise, formaterDateFrancaise } = require('./dateUtils');
 

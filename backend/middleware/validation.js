@@ -1,28 +1,24 @@
-// ========================================
-// MIDDLEWARE VALIDATION - VERSION CORRIGÉE
-// Fichier: backend/middleware/validation.js
-// ========================================
-
+// Middleware de validation des données
 const { validerMotDePasse } = require('../config/auth');
 
 /**
- * Valide les données d'une enquête - CORRIGÉ POUR LE FRONTEND
+ * Valide les données d'une enquête
  */
 const validerDonneesEnquete = (req, res, next) => {
     const erreurs = [];
     
-    console.log('🔍 Validation middleware - Données reçues:', req.body);
+    console.log('Validation middleware - Données reçues:', req.body);
     
-    // CORRECTION: Adapter aux noms de champs du frontend
+    // Adapter aux noms de champs du frontend
     const { 
         dateVisite,        // Frontend envoie dateVisite 
         heureVisite,       // Frontend envoie heureVisite
-        nom,               // Frontend envoie nom (pas nomVisiteur)
+        nom,               // Frontend envoie nom
         telephone, 
         email, 
         raisonPresence, 
-        satisfaction,      // Frontend envoie satisfaction (pas niveauSatisfaction)
-        serviceConcerne    // Frontend envoie serviceConcerne (nom, pas ID)
+        satisfaction,      // Frontend envoie satisfaction 
+        serviceConcerne    // Frontend envoie serviceConcerne 
     } = req.body;
 
     // Validation date de visite
@@ -49,7 +45,7 @@ const validerDonneesEnquete = (req, res, next) => {
         erreurs.push('Format d\'heure invalide (HH:MM)');
     }
 
-    // Validation nom visiteur (CORRIGÉ: nom au lieu de nomVisiteur)
+    // Validation nom visiteur
     if (!nom || typeof nom !== 'string') {
         erreurs.push('Nom du visiteur obligatoire');
     } else if (nom.trim().length < 2) {
@@ -60,7 +56,7 @@ const validerDonneesEnquete = (req, res, next) => {
         erreurs.push('Le nom ne peut contenir que des lettres, espaces, tirets et apostrophes');
     }
 
-    // Validation prénom (optionnel)
+    // Validation prénom 
     if (req.body.prenom) {
         const prenom = req.body.prenom.trim();
         if (prenom.length > 100) {
@@ -80,7 +76,7 @@ const validerDonneesEnquete = (req, res, next) => {
         }
     }
 
-    // Validation email (optionnel)
+    // Validation email 
     if (email && email.trim()) {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(email.trim())) {
@@ -96,7 +92,7 @@ const validerDonneesEnquete = (req, res, next) => {
         erreurs.push('Raison de présence invalide');
     }
 
-    // Validation niveau de satisfaction (CORRIGÉ: satisfaction au lieu de niveauSatisfaction)
+    // Validation niveau de satisfaction
     const niveauxValides = ['Satisfait', 'Mécontent'];
     if (!satisfaction) {
         erreurs.push('Niveau de satisfaction obligatoire');
@@ -104,25 +100,25 @@ const validerDonneesEnquete = (req, res, next) => {
         erreurs.push('Niveau de satisfaction invalide');
     }
 
-    // Validation service (CORRIGÉ: serviceConcerne au lieu de idService)
+    // Validation service
     if (!serviceConcerne) {
         erreurs.push('Service obligatoire');
     } else if (typeof serviceConcerne !== 'string' || serviceConcerne.trim().length === 0) {
         erreurs.push('Service invalide');
     }
 
-    // Validation commentaires (optionnel)
+    // Validation commentaires 
     if (req.body.commentaires && req.body.commentaires.length > 1000) {
         erreurs.push('Les commentaires ne peuvent pas dépasser 1000 caractères');
     }
 
-    // Validation recommandations (optionnel)
+    // Validation recommandations
     if (req.body.recommandations && req.body.recommandations.length > 1000) {
         erreurs.push('Les recommandations ne peuvent pas dépasser 1000 caractères');
     }
 
     if (erreurs.length > 0) {
-        console.log('❌ Erreurs de validation:', erreurs);
+        console.log('Erreurs de validation:', erreurs);
         return res.status(400).json({
             succes: false,
             message: 'Données invalides',
@@ -130,7 +126,7 @@ const validerDonneesEnquete = (req, res, next) => {
         });
     }
 
-    console.log('✅ Validation réussie');
+    console.log('Validation réussie');
     next();
 };
 
@@ -209,7 +205,7 @@ const validerCreationUtilisateur = (req, res, next) => {
         erreurs.push('Le nom ne peut contenir que des lettres, espaces, tirets et apostrophes');
     }
 
-    // Validation prénom (optionnel)
+    // Validation prénom 
     if (prenom && typeof prenom === 'string') {
         if (prenom.trim().length > 100) {
             erreurs.push('Le prénom ne peut pas dépasser 100 caractères');
@@ -218,7 +214,7 @@ const validerCreationUtilisateur = (req, res, next) => {
         }
     }
 
-    // Validation email (optionnel)
+    // Validation email 
     if (email && email.trim()) {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(email.trim())) {

@@ -3,16 +3,9 @@
 // Fichier: frontend/scripts/utils.js
 // ========================================
 
-/**
- * Affiche une notification à l'utilisateur
- * @param {string} message - Message à afficher
- * @param {string} type - Type de notification ('success', 'error', 'warning', 'info')
- * @param {number} duration - Durée d'affichage en millisecondes (défaut: 3000)
- */
 function showNotification(message, type = 'info', duration = 3000) {
     console.log(`[${type.toUpperCase()}] ${message}`);
-    
-    // Créer l'élément de notification
+
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
@@ -24,8 +17,7 @@ function showNotification(message, type = 'info', duration = 3000) {
             </button>
         </div>
     `;
-    
-    // Styles de la notification
+
     notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -40,8 +32,7 @@ function showNotification(message, type = 'info', duration = 3000) {
         overflow: hidden;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     `;
-    
-    // Styles du contenu
+
     const content = notification.querySelector('.notification-content');
     content.style.cssText = `
         display: flex;
@@ -52,23 +43,20 @@ function showNotification(message, type = 'info', duration = 3000) {
         color: ${getTextColorForType(type)};
         border-left: 4px solid ${getBorderColorForType(type)};
     `;
-    
-    // Styles de l'icône
+
     const icon = notification.querySelector('.notification-icon');
     icon.style.cssText = `
         font-size: 18px;
         flex-shrink: 0;
     `;
-    
-    // Styles du message
+
     const messageEl = notification.querySelector('.notification-message');
     messageEl.style.cssText = `
         flex: 1;
         font-size: 14px;
         line-height: 1.4;
     `;
-    
-    // Styles du bouton de fermeture
+
     const closeBtn = notification.querySelector('.notification-close');
     closeBtn.style.cssText = `
         background: none;
@@ -80,11 +68,10 @@ function showNotification(message, type = 'info', duration = 3000) {
         opacity: 0.7;
         transition: opacity 0.2s;
     `;
-    
+
     closeBtn.addEventListener('mouseenter', () => closeBtn.style.opacity = '1');
     closeBtn.addEventListener('mouseleave', () => closeBtn.style.opacity = '0.7');
-    
-    // Ajouter les styles d'animation
+
     if (!document.getElementById('notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
@@ -100,11 +87,9 @@ function showNotification(message, type = 'info', duration = 3000) {
         `;
         document.head.appendChild(style);
     }
-    
-    // Ajouter au DOM
+
     document.body.appendChild(notification);
-    
-    // Supprimer automatiquement après la durée spécifiée
+
     setTimeout(() => {
         if (notification.parentNode) {
             notification.style.animation = 'slideOut 0.3s ease-in';
@@ -117,9 +102,6 @@ function showNotification(message, type = 'info', duration = 3000) {
     }, duration);
 }
 
-/**
- * Obtient l'icône appropriée pour le type de notification
- */
 function getIconForType(type) {
     const icons = {
         'success': 'fas fa-check-circle',
@@ -130,9 +112,6 @@ function getIconForType(type) {
     return icons[type] || icons.info;
 }
 
-/**
- * Obtient la couleur de fond pour le type de notification
- */
 function getBackgroundForType(type) {
     const backgrounds = {
         'success': '#f0f9ff',
@@ -143,9 +122,6 @@ function getBackgroundForType(type) {
     return backgrounds[type] || backgrounds.info;
 }
 
-/**
- * Obtient la couleur du texte pour le type de notification
- */
 function getTextColorForType(type) {
     const colors = {
         'success': '#065f46',
@@ -156,9 +132,6 @@ function getTextColorForType(type) {
     return colors[type] || colors.info;
 }
 
-/**
- * Obtient la couleur de bordure pour le type de notification
- */
 function getBorderColorForType(type) {
     const colors = {
         'success': '#10b981',
@@ -169,47 +142,24 @@ function getBorderColorForType(type) {
     return colors[type] || colors.info;
 }
 
-/**
- * Affiche un état de chargement sur un élément
- * @param {HTMLElement} element - Élément à modifier
- * @param {string} message - Message de chargement
- */
 function showLoadingState(element, message = 'Chargement...') {
     if (!element) return;
-    
-    // Sauvegarder l'état original
     element.dataset.originalText = element.textContent;
     element.dataset.originalDisabled = element.disabled;
-    
-    // Appliquer l'état de chargement
     element.disabled = true;
     element.textContent = message;
     element.classList.add('loading');
 }
 
-/**
- * Retire l'état de chargement d'un élément
- * @param {HTMLElement} element - Élément à restaurer
- */
 function hideLoadingState(element) {
     if (!element) return;
-    
-    // Restaurer l'état original
     element.textContent = element.dataset.originalText || element.textContent;
     element.disabled = element.dataset.originalDisabled === 'true';
     element.classList.remove('loading');
-    
-    // Nettoyer les attributs
     delete element.dataset.originalText;
     delete element.dataset.originalDisabled;
 }
 
-/**
- * Formate une date en français
- * @param {Date|string} date - Date à formater
- * @param {object} options - Options de formatage
- * @returns {string} Date formatée
- */
 function formaterDate(date, options = {}) {
     const defaultOptions = {
         year: 'numeric',
@@ -217,16 +167,10 @@ function formaterDate(date, options = {}) {
         day: 'numeric',
         ...options
     };
-    
     const dateObj = typeof date === 'string' ? new Date(date) : date;
     return dateObj.toLocaleDateString('fr-FR', defaultOptions);
 }
 
-/**
- * Formate une heure en français
- * @param {Date|string} time - Heure à formater
- * @returns {string} Heure formatée
- */
 function formaterHeure(time) {
     const timeObj = typeof time === 'string' ? new Date(`2000-01-01T${time}`) : time;
     return timeObj.toLocaleTimeString('fr-FR', {
@@ -235,46 +179,22 @@ function formaterHeure(time) {
     });
 }
 
-/**
- * Valide un email - VERSION RENFORCÉE
- * @param {string} email - Email à valider
- * @returns {boolean} True si l'email est valide
- */
 function validerEmail(email) {
-    // Regex plus stricte pour la validation d'email
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
 }
 
-/**
- * Valide un numéro de téléphone ivoirien - VERSION MODIFIÉE
- * @param {string} telephone - Numéro à valider
- * @returns {boolean} True si le numéro est valide
- */
 function validerTelephone(telephone) {
-    // Regex pour les numéros ivoiriens :
-    // - Avec préfixe : +225 suivi de 8-10 chiffres
-    // - Sans préfixe : 8-10 chiffres directement
     const regex = /^(\+225\s?)?[0-9]{8,10}$/;
     return regex.test(telephone.trim());
 }
 
-/**
- * Échappe les caractères HTML
- * @param {string} text - Texte à échapper
- * @returns {string} Texte échappé
- */
 function echapperHTML(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
-/**
- * Copie du texte dans le presse-papiers
- * @param {string} text - Texte à copier
- * @returns {Promise<boolean>} True si la copie a réussi
- */
 async function copierPressePapiers(text) {
     try {
         await navigator.clipboard.writeText(text);
@@ -287,12 +207,6 @@ async function copierPressePapiers(text) {
     }
 }
 
-/**
- * Debounce une fonction
- * @param {Function} func - Fonction à debouncer
- * @param {number} wait - Délai d'attente en millisecondes
- * @returns {Function} Fonction debouncée
- */
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -305,11 +219,6 @@ function debounce(func, wait) {
     };
 }
 
-/**
- * Scroll fluide vers un élément
- * @param {string|HTMLElement} target - Sélecteur ou élément cible
- * @param {object} options - Options de scroll
- */
 function scrollTo(target, options = {}) {
     const element = typeof target === 'string' ? document.querySelector(target) : target;
     if (element) {
@@ -321,7 +230,6 @@ function scrollTo(target, options = {}) {
     }
 }
 
-// Export des fonctions globalement
 window.showNotification = showNotification;
 window.showLoadingState = showLoadingState;
 window.hideLoadingState = hideLoadingState;

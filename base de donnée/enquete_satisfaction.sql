@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 03 juil. 2025 à 21:05
+-- Généré le : ven. 04 juil. 2025 à 00:12
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -50,19 +50,28 @@ CREATE TABLE IF NOT EXISTS `enquetes` (
   KEY `idx_raison_presence` (`raison_presence`),
   KEY `idx_service` (`id_service`),
   KEY `idx_date_soumission` (`date_soumission`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `enquetes`
 --
 
 INSERT INTO `enquetes` (`id_enquete`, `date_heure_visite`, `nom_visiteur`, `prenom_visiteur`, `telephone`, `email`, `raison_presence`, `niveau_satisfaction`, `id_service`, `commentaires`, `recommandations`, `adresse_ip`, `user_agent`, `date_soumission`, `date_modification`) VALUES
-(1, '2025-07-03 12:37:00', 'ZADJEHI', 'MOAHE EMMANUEL HYACINTHE JUNIOR', '0101445401', 'zadjehi@gmail.com', 'Prise de sang (Bilan)', 'Satisfait', 3, 'Je suis satisfait du resultat', 'revoyer le temps que vous mettez avant de donner les résultats', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0', '2025-07-03 12:39:16', '2025-07-03 12:39:16'),
-(2, '2025-07-03 12:58:00', 'ZADJEHI', 'EMMANUEL', '0703127115', 'test@gmail.com', 'Retrait de résultat', 'Mécontent', 2, 'test 2 pour voir', 'Test 2 pour voir', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0', '2025-07-03 12:59:33', '2025-07-03 12:59:33'),
-(3, '2025-07-03 15:18:00', 'TANO', 'KOUASSI', '0101445401', 'test@gmail.com', 'Information', 'Mécontent', 1, 'test mecontent', 'tttgbnbvb hbig\"\'érihed uyob', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0', '2025-07-03 15:19:35', '2025-07-03 15:19:35'),
-(4, '2025-07-03 19:17:00', 'ZADJEHI', 'MOAHE', '0101445401', 'moahe@gmail.com', 'Prise de sang (Bilan)', 'Satisfait', 2, 'Je suis satisfait', 'Tres TRES satisfait', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0', '2025-07-03 19:17:45', '2025-07-03 19:17:45'),
-(5, '2025-07-03 19:28:00', 'KOFFI', 'KONNAN', '0703127115', 'koffi@gmail.com', 'Information', 'Satisfait', 1, 'Toujours satisfait', 'Toujours Satisfait', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0', '2025-07-03 19:28:48', '2025-07-03 19:28:48'),
-(6, '2025-07-03 20:41:00', 'test', 'test', '0101445401', 'test@gmail.com', 'Information', 'Satisfait', 1, 'test pour voir', 'Test pour voir', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0', '2025-07-03 20:42:43', '2025-07-03 20:42:43');
+(1, '2025-07-01 09:15:00', 'ZADJEHI', 'Emmanuel', '0100000001', 'zadjehi@example.ci', 'Information', 'Satisfait', 1, 'Très bon accueil', 'Continuez ainsi', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(2, '2025-07-01 10:20:00', 'KOUADIO', 'Jacques', '0100000002', 'kouadio.jacques@example.ci', 'Prise de sang (Bilan)', 'Satisfait', 2, 'Personnel accueillant', 'Améliorer la signalisation', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(3, '2025-07-01 11:45:00', 'YAO', 'Arsène', '0100000003', 'yao.arsene@example.ci', 'Retrait de résultat', 'Mécontent', 3, 'Trop d\'attente', 'Réduire les délais', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(4, '2025-07-02 08:30:00', 'BLE', 'Lucien', '0100000004', 'ble.lucien@example.ci', 'Information', 'Satisfait', 1, 'Service rapide', 'RAS', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(5, '2025-07-02 09:50:00', 'KONE', 'Aminata', '0100000005', 'kone.aminata@example.ci', 'Prise de sang (Bilan)', 'Satisfait', 2, 'Bonne prise en charge', 'Continuer comme ça', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(6, '2025-07-02 10:10:00', 'TANO', 'Jean', '0100000006', 'tano.jean@example.ci', 'Retrait de résultat', 'Mécontent', 3, 'Résultats retardés', 'Communiquer les délais', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(7, '2025-07-03 13:15:00', 'N\'DA', 'Christelle', '0100000007', 'nda.christelle@example.ci', 'Information', 'Satisfait', 1, 'Personnel souriant', 'RAS', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(8, '2025-07-03 14:25:00', 'KOFFI', 'Michel', '0100000008', 'koffi.michel@example.ci', 'Prise de sang (Bilan)', 'Satisfait', 2, 'Bien organisé', 'Ajouter plus de sièges', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(9, '2025-07-03 15:00:00', 'DJE', 'Nadine', '0100000009', 'dje.nadine@example.ci', 'Retrait de résultat', 'Satisfait', 3, 'Rapide et efficace', 'RAS', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(10, '2025-07-04 09:10:00', 'ADOU', 'Eric', '0100000010', 'adou.eric@example.ci', 'Information', 'Satisfait', 1, 'Bonne orientation', 'Signalétique à améliorer', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(11, '2025-07-04 10:30:00', 'BAKAYOKO', 'Fanta', '0100000011', 'bakayoko.fanta@example.ci', 'Prise de sang (Bilan)', 'Mécontent', 2, 'Infirmière peu aimable', 'Former le personnel', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(12, '2025-07-04 11:00:00', 'KOUAME', 'Thierry', '0100000012', 'kouame.thierry@example.ci', 'Retrait de résultat', 'Satisfait', 3, 'Tout s’est bien passé', 'RAS', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(13, '2025-07-04 11:45:00', 'ZAHOUI', 'Sylvie', '0100000013', 'zahoui.sylvie@example.ci', 'Information', 'Satisfait', 1, 'Clair et rapide', 'RAS', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(14, '2025-07-04 13:00:00', 'AHOU', 'Pierre', '0100000014', 'ahou.pierre@example.ci', 'Prise de sang (Bilan)', 'Satisfait', 2, 'Bon matériel', 'RAS', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25'),
+(15, '2025-07-04 14:15:00', 'N\'GUESSAN', 'Cecilia', '0100000015', 'nguessan.cecilia@example.ci', 'Retrait de résultat', 'Satisfait', 3, 'Facile et rapide', 'RAS', '::1', 'Mozilla/5.0', '2025-07-04 00:12:25', '2025-07-04 00:12:25');
 
 -- --------------------------------------------------------
 
@@ -83,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `logs_activite` (
   KEY `idx_utilisateur_log` (`id_utilisateur`),
   KEY `idx_date_action` (`date_action`),
   KEY `idx_action` (`action`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `logs_activite`
@@ -129,7 +138,8 @@ INSERT INTO `logs_activite` (`id_log`, `id_utilisateur`, `action`, `description`
 (37, 0, 'export_donnees', 'Export enquetes en format excel', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0', '2025-07-03 19:51:31'),
 (38, 0, 'export_donnees', 'Export enquetes en format excel', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0', '2025-07-03 19:51:32'),
 (39, 0, 'export_donnees', 'Export enquetes en format excel', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0', '2025-07-03 19:51:32'),
-(40, 0, 'export_donnees', 'Export enquetes en format excel', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0', '2025-07-03 20:09:25');
+(40, 0, 'export_donnees', 'Export enquetes en format excel', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0', '2025-07-03 20:09:25'),
+(41, 0, 'export_donnees', 'Export enquetes en format excel', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0', '2025-07-03 22:59:23');
 
 -- --------------------------------------------------------
 
@@ -157,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   KEY `idx_lu` (`lu`),
   KEY `idx_date_creation` (`date_creation`),
   KEY `idx_actif` (`actif`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table pour les notifications système';
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table pour les notifications système';
 
 --
 -- Déchargement des données de la table `notifications`
@@ -166,7 +176,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 INSERT INTO `notifications` (`id_notification`, `type_notification`, `titre`, `message`, `id_enquete`, `id_utilisateur_destinataire`, `lu`, `date_creation`, `date_lecture`, `donnees_supplementaires`, `actif`) VALUES
 (1, 'nouvelle_enquete', 'Nouvelle enquête reçue', 'Une nouvelle enquête de satisfaction a été soumise par ZADJEHI MOAHE', 1, NULL, 0, '2025-07-03 20:15:45', NULL, '{\"service\": \"Résultats\", \"nom_visiteur\": \"ZADJEHI\", \"satisfaction\": \"Satisfait\", \"prenom_visiteur\": \"MOAHE EMMANUEL\"}', 1),
 (2, 'nouvelle_enquete', 'Nouvelle enquête reçue', 'Une nouvelle enquête de satisfaction a été soumise par KONE Marie', 2, NULL, 0, '2025-07-03 20:15:45', NULL, '{\"service\": \"Accueil\", \"nom_visiteur\": \"KONE\", \"satisfaction\": \"Mécontent\", \"prenom_visiteur\": \"Marie\"}', 1),
-(3, 'enquete_mecontent', 'Enquête mécontente', 'Une enquête avec un niveau de satisfaction \"Mécontent\" a été soumise', 3, NULL, 0, '2025-07-03 20:15:45', NULL, '{\"service\": \"Accueil\", \"commentaires\": \"Attente trop longue\", \"nom_visiteur\": \"TANO\", \"satisfaction\": \"Mécontent\"}', 1);
+(3, 'enquete_mecontent', 'Enquête mécontente', 'Une enquête avec un niveau de satisfaction \"Mécontent\" a été soumise', 3, NULL, 0, '2025-07-03 20:15:45', NULL, '{\"service\": \"Accueil\", \"commentaires\": \"Attente trop longue\", \"nom_visiteur\": \"TANO\", \"satisfaction\": \"Mécontent\"}', 1),
+(4, 'nouvelle_enquete', 'Nouvelle enquête reçue', '✅ Une nouvelle enquête de satisfaction a été soumise par ZANBI MOREL', 7, NULL, 0, '2025-07-03 22:58:26', NULL, '{\"service\": \"Accueil\", \"date_visite\": \"2025-07-03 22:56:00\", \"commentaires\": \"C\'était super\", \"nom_visiteur\": \"ZANBI\", \"satisfaction\": \"Satisfait\", \"prenom_visiteur\": \"MOREL\", \"raison_presence\": \"Information\"}', 1),
+(5, 'nouvelle_enquete', 'Nouvelle enquête reçue', '✅ Une nouvelle enquête de satisfaction a été soumise par test test', 8, NULL, 0, '2025-07-04 00:08:30', NULL, '{\"service\": \"Administration\", \"date_visite\": \"2025-07-04 00:07:00\", \"commentaires\": \"test ci 122\", \"nom_visiteur\": \"test\", \"satisfaction\": \"Satisfait\", \"prenom_visiteur\": \"test\", \"raison_presence\": \"Prise de sang (Bilan)\"}', 1);
 
 -- --------------------------------------------------------
 

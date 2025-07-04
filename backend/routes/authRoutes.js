@@ -1,17 +1,11 @@
-// ========================================
-// ROUTES AUTHENTIFICATION
-// Fichier: backend/routes/authRoutes.js
-// ========================================
-
+// Routes Authentification
 const express = require('express');
 const router = express.Router();
 const AuthControleur = require('../controleurs/authControleur');
 const { verifierAuthentification } = require('../middleware/authentification');
 const { validerConnexion, validerCreationUtilisateur, validerChangementMotDePasse } = require('../middleware/validation');
 
-// ========================================
-// ROUTES PUBLIQUES (sans authentification)
-// ========================================
+// Routes publiques (sans authentification)
 
 /**
  * Connexion d'un utilisateur
@@ -20,9 +14,7 @@ const { validerConnexion, validerCreationUtilisateur, validerChangementMotDePass
  */
 router.post('/connexion', validerConnexion, AuthControleur.connexion);
 
-// ========================================
-// ROUTES PROTÉGÉES (avec authentification)
-// ========================================
+// Routes protégées (avec authentification)
 
 /**
  * Déconnexion d'un utilisateur
@@ -48,9 +40,7 @@ router.post('/changer-mot-de-passe',
     AuthControleur.changerMotDePasse
 );
 
-// ========================================
-// ROUTES ADMINISTRATEUR SEULEMENT
-// ========================================
+// Routes administrateur seulement
 
 /**
  * Créer un nouvel utilisateur (admin seulement)

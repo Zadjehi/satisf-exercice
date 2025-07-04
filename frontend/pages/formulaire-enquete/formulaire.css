@@ -2,13 +2,11 @@
    STYLES FORMULAIRE D'ENQUÊTE
    ======================================== */
 
-/* Variables spécifiques */
 :root {
     --form-max-width: 800px;
     --step-transition: 0.3s ease;
 }
 
-/* Layout principal */
 .main-content {
     min-height: calc(100vh - 80px);
     padding: 2rem 0;
@@ -19,7 +17,6 @@
     max-width: var(--form-max-width);
 }
 
-/* Header du formulaire */
 .form-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -42,7 +39,6 @@
     margin-bottom: 2rem;
 }
 
-/* Barre de progression */
 .progress-bar {
     width: 100%;
     height: 8px;
@@ -66,7 +62,6 @@
     font-weight: 500;
 }
 
-/* Formulaire principal */
 .enquete-form {
     background: var(--white);
     border-radius: var(--radius-lg);
@@ -75,7 +70,6 @@
     position: relative;
 }
 
-/* Étapes du formulaire */
 .form-step {
     display: none;
     padding: 3rem;
@@ -98,7 +92,6 @@
     }
 }
 
-/* En-tête des étapes */
 .step-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -126,7 +119,6 @@
     color: var(--gray-600);
 }
 
-/* Grille du formulaire */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -138,7 +130,6 @@
     grid-column: 1 / -1;
 }
 
-/* Groupes de formulaire */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -187,7 +178,6 @@
     font-family: inherit;
 }
 
-/* Messages d'erreur */
 .error-message {
     margin-top: 0.25rem;
     font-size: var(--text-xs);
@@ -196,7 +186,6 @@
     min-height: 1rem;
 }
 
-/* Compteur de caractères */
 .char-counter {
     text-align: right;
     margin-top: 0.25rem;
@@ -204,7 +193,6 @@
     color: var(--gray-500);
 }
 
-/* Section satisfaction */
 .satisfaction-section {
     margin: 2rem 0;
 }
@@ -272,7 +260,6 @@
     color: var(--gray-600);
 }
 
-/* États des cartes de satisfaction */
 .satisfaction-card.satisfait i {
     color: var(--success-color);
 }
@@ -297,7 +284,6 @@
     background: rgb(217 119 6 / 0.05);
 }
 
-/* Actions du formulaire */
 .form-actions {
     display: flex;
     justify-content: space-between;
@@ -311,7 +297,6 @@
     min-width: 120px;
 }
 
-/* Message de confirmation */
 .confirmation-message {
     background: var(--white);
     border-radius: var(--radius-lg);
@@ -350,7 +335,6 @@
     flex-wrap: wrap;
 }
 
-/* Loading overlay */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -384,12 +368,10 @@
     font-weight: 500;
 }
 
-/* États cachés */
 .hidden {
     display: none !important;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .main-content {
         padding: 1rem 0;
@@ -466,7 +448,6 @@
     }
 }
 
-/* Animations pour les transitions */
 .form-step.slide-out-left {
     animation: slideOutLeft var(--step-transition);
 }
@@ -497,13 +478,11 @@
     }
 }
 
-/* Focus visible pour l'accessibilité */
 .satisfaction-option:focus-within .satisfaction-card {
     outline: 3px solid var(--primary-color);
     outline-offset: 2px;
 }
 
-/* Amélioration des états de survol */
 .btn:hover {
     transform: translateY(-1px);
 }

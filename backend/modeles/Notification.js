@@ -1,8 +1,4 @@
-// ========================================
-// MODÈLE NOTIFICATION
-// Fichier: backend/modeles/Notification.js
-// ========================================
-
+// Modèle Notification
 const { executerRequete } = require('../config/database');
 
 class Notification {
@@ -34,10 +30,10 @@ class Notification {
         ];
 
         try {
-            console.log('🔔 Création notification:', donneesNotification.titre);
+            console.log('Création notification:', donneesNotification.titre);
             const resultat = await executerRequete(requete, parametres);
             
-            console.log('✅ Notification créée, ID:', resultat.insertId);
+            console.log('Notification créée, ID:', resultat.insertId);
             
             return {
                 succes: true,
@@ -45,13 +41,13 @@ class Notification {
                 message: 'Notification créée avec succès'
             };
         } catch (erreur) {
-            console.error('❌ Erreur création notification:', erreur);
+            console.error('Erreur création notification:', erreur);
             throw new Error(`Erreur lors de la création de la notification: ${erreur.message}`);
         }
     }
 
     /**
-     * 🔥 MÉTHODE PRINCIPALE - Crée une notification pour une nouvelle enquête
+     * Crée une notification pour une nouvelle enquête
      * @param {Object} enquete - Données de l'enquête
      * @returns {Promise<Object>} Résultat de la création
      */
@@ -135,10 +131,10 @@ class Notification {
                 }
             });
 
-            console.log(`🔔 ${notifications.length} notifications non lues récupérées`);
+            console.log(`${notifications.length} notifications non lues récupérées`);
             return notifications;
         } catch (erreur) {
-            console.error('❌ Erreur récupération notifications:', erreur);
+            console.error('Erreur récupération notifications:', erreur);
             throw new Error(`Erreur lors de la récupération des notifications: ${erreur.message}`);
         }
     }
@@ -168,7 +164,7 @@ class Notification {
             const [resultat] = await executerRequete(requete, parametres);
             return resultat.total || 0;
         } catch (erreur) {
-            console.error('❌ Erreur comptage notifications:', erreur);
+            console.error('Erreur comptage notifications:', erreur);
             return 0;
         }
     }
@@ -204,14 +200,14 @@ class Notification {
                 };
             }
 
-            console.log(`✅ Notification ${idNotification} marquée comme lue`);
+            console.log(`Notification ${idNotification} marquée comme lue`);
             
             return {
                 succes: true,
                 message: 'Notification marquée comme lue'
             };
         } catch (erreur) {
-            console.error('❌ Erreur marquage notification:', erreur);
+            console.error('Erreur marquage notification:', erreur);
             throw new Error(`Erreur lors du marquage de la notification: ${erreur.message}`);
         }
     }
@@ -240,7 +236,7 @@ class Notification {
         try {
             const resultat = await executerRequete(requete, parametres);
             
-            console.log(`✅ ${resultat.affectedRows} notifications marquées comme lues`);
+            console.log(`${resultat.affectedRows} notifications marquées comme lues`);
             
             return {
                 succes: true,
@@ -248,7 +244,7 @@ class Notification {
                 message: `${resultat.affectedRows} notifications marquées comme lues`
             };
         } catch (erreur) {
-            console.error('❌ Erreur marquage toutes notifications:', erreur);
+            console.error('Erreur marquage toutes notifications:', erreur);
             throw new Error(`Erreur lors du marquage des notifications: ${erreur.message}`);
         }
     }
@@ -267,11 +263,11 @@ class Notification {
         try {
             const resultat = await executerRequete(requete, [joursAnciennete]);
             
-            console.log(`🧹 ${resultat.affectedRows} anciennes notifications supprimées`);
+            console.log(`${resultat.affectedRows} anciennes notifications supprimées`);
             
             return resultat.affectedRows;
         } catch (erreur) {
-            console.error('❌ Erreur nettoyage notifications:', erreur);
+            console.error('Erreur nettoyage notifications:', erreur);
             throw new Error(`Erreur lors du nettoyage des notifications: ${erreur.message}`);
         }
     }
@@ -330,7 +326,7 @@ class Notification {
                 }
             };
         } catch (erreur) {
-            console.error('❌ Erreur historique notifications:', erreur);
+            console.error('Erreur historique notifications:', erreur);
             throw new Error(`Erreur lors de la récupération de l'historique: ${erreur.message}`);
         }
     }

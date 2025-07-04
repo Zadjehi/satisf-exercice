@@ -1,8 +1,4 @@
-// ========================================
-// CONTRÔLEUR STATISTIQUES AVEC EXPORT EXCEL
-// Fichier: backend/controleurs/statistiquesControleur.js
-// ========================================
-
+// Contrôleur pour la gestion des statistiques avec export Excel
 const Enquete = require('../modeles/Enquete');
 const Utilisateur = require('../modeles/Utilisateur');
 const { executerRequete } = require('../config/database');
@@ -36,18 +32,11 @@ class StatistiquesControleur {
             
             // Transformer les données pour correspondre à ce que le frontend attend
             const statistiques = {
-                // Données générales
                 totalEnquetes: statistiquesBrutes.recentes?.total_enquetes || 0,
                 satisfactionMoyenne: 0,
                 insatisfactionMoyenne: 0,
-                
-                // Données mensuelles (pour les graphiques)
                 mensuelles: statistiquesBrutes.mensuelles || [],
-                
-                // Données par service (pour les graphiques)
                 services: statistiquesBrutes.services || [],
-                
-                // Tendances
                 tendances: {
                     satisfaits: statistiquesBrutes.recentes?.satisfaits || 0,
                     mecontents: statistiquesBrutes.recentes?.mecontents || 0,
@@ -55,8 +44,6 @@ class StatistiquesControleur {
                     cetteSemaine: statistiquesBrutes.recentes?.cette_semaine || 0,
                     ceMois: statistiquesBrutes.recentes?.ce_mois || 0
                 },
-                
-                // Métadonnées
                 derniereMAJ: new Date().toISOString(),
                 periode: "Derniers 6 mois"
             };
@@ -99,17 +86,13 @@ class StatistiquesControleur {
         }
     }
 
-    // ========================================
-    // 🔥 NOUVELLES MÉTHODES POUR L'EXPORT EXCEL
-    // ========================================
-
     /**
-     * 🔥 EXPORT DIRECT AVEC TÉLÉCHARGEMENT DE FICHIER
+     * Export direct avec téléchargement de fichier
      * GET /api/statistiques/export?format=excel&type=enquetes
      */
     static async exporterFichier(req, res) {
         try {
-            console.log('📥 Début de l\'export avec téléchargement');
+            console.log('Début de l\'export avec téléchargement');
             
             // Vérifier les permissions
             if (!req.utilisateur) {
@@ -130,7 +113,7 @@ class StatistiquesControleur {
             const type = req.query.type || 'enquetes';
             const nomFichier = req.query.nom || null;
 
-            console.log(`📊 Export demandé - Format: ${format}, Type: ${type}`);
+            console.log(`Export demandé - Format: ${format}, Type: ${type}`);
 
             let donnees = {};
 
@@ -157,7 +140,7 @@ class StatistiquesControleur {
                     });
             }
 
-            console.log(`✅ Données récupérées - Enquêtes: ${donnees.enquetes?.length || 0}`);
+            console.log(`Données récupérées - Enquêtes: ${donnees.enquetes?.length || 0}`);
 
             // Enregistrer l'action
             await Utilisateur.enregistrerLog(
@@ -172,7 +155,7 @@ class StatistiquesControleur {
             envoyerFichierExport(req, res, donnees, format);
 
         } catch (erreur) {
-            console.error('❌ Erreur export fichier:', erreur);
+            console.error('Erreur export fichier:', erreur);
             res.status(500).json({
                 succes: false,
                 message: 'Erreur lors de l\'export du fichier',
@@ -182,14 +165,13 @@ class StatistiquesControleur {
     }
 
     /**
-     * 🔥 PRÉVISUALISATION DES DONNÉES D'EXPORT
+     * Prévisualisation des données d'export
      * GET /api/statistiques/export-preview?type=enquetes
      */
     static async previsualiserExport(req, res) {
         try {
             const type = req.query.type || 'enquetes';
             
-            // Vérifier les permissions
             if (!req.utilisateur) {
                 return res.status(401).json({
                     succes: false,
@@ -228,7 +210,7 @@ class StatistiquesControleur {
             });
 
         } catch (erreur) {
-            console.error('❌ Erreur prévisualisation export:', erreur);
+            console.error('Erreur prévisualisation export:', erreur);
             res.status(500).json({
                 succes: false,
                 message: 'Erreur lors de la prévisualisation',
@@ -238,7 +220,7 @@ class StatistiquesControleur {
     }
 
     /**
-     * 🔥 EXPORT PAR PÉRIODE
+     * Export par période
      * POST /api/statistiques/export-periode
      */
     static async exporterPeriode(req, res) {
@@ -313,7 +295,7 @@ class StatistiquesControleur {
             envoyerFichierExport(req, res, donnees, format);
 
         } catch (erreur) {
-            console.error('❌ Erreur export période:', erreur);
+            console.error('Erreur export période:', erreur);
             res.status(500).json({
                 succes: false,
                 message: 'Erreur lors de l\'export par période',
@@ -321,10 +303,6 @@ class StatistiquesControleur {
             });
         }
     }
-
-    // ========================================
-    // MÉTHODES UTILITAIRES POUR L'EXPORT
-    // ========================================
 
     /**
      * Récupère toutes les données des enquêtes pour l'export
@@ -369,10 +347,6 @@ class StatistiquesControleur {
             mensuelles
         };
     }
-
-    // ========================================
-    // MÉTHODES EXISTANTES (inchangées)
-    // ========================================
 
     static async obtenirStatistiquesSatisfaction(req, res) {
         try {

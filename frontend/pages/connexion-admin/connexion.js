@@ -1,7 +1,4 @@
-// ========================================
-// SCRIPT PAGE DE CONNEXION ADMIN - VERSION CORRIGÉE
-// Fichier: frontend/pages/connexion-admin/connexion.js
-// ========================================
+// Script Page de Connexion Admin
 
 async function apiCall(endpoint, options = {}) {
     const baseUrl = 'http://localhost:5000/api'; 
@@ -41,9 +38,9 @@ async function apiCall(endpoint, options = {}) {
 class ConnexionAdmin {
     constructor() {
         this.isSubmitting = false;
-        this.maxAttempts = 6;      // 6 essais max
+        this.maxAttempts = 6;
         this.currentAttempts = 0;
-        this.lockoutTime = 0;      // Désactivation du verrouillage
+        this.lockoutTime = 0;
         this.init();
     }
 
@@ -51,7 +48,6 @@ class ConnexionAdmin {
         this.setupEventListeners();
         this.setupValidation();
         this.checkExistingSession();
-        // On ne vérifie plus le lockout car désactivé
     }
 
     setupEventListeners() {
@@ -190,8 +186,6 @@ Ce compte est configuré pour la connexion administrateur.`;
     async handleLogin() {
         if (this.isSubmitting) return;
 
-        // Plus de vérification lockout car désactivée
-
         if (!this.validateForm()) {
             return;
         }
@@ -208,7 +202,7 @@ Ce compte est configuré pour la connexion administrateur.`;
                 motDePasse: document.getElementById('password').value
             };
 
-            console.log('🔐 Connexion:', formData.nomUtilisateur);
+            console.log('Connexion:', formData.nomUtilisateur);
 
             const response = await apiCall('/auth/connexion', {
                 method: 'POST',
@@ -217,10 +211,10 @@ Ce compte est configuré pour la connexion administrateur.`;
 
             // Vérifier le succès avec les deux orthographes possibles (français/anglais)
             if (response && (response.success || response.succes)) {
-                console.log('✅ Réponse API de connexion:', response);
+                console.log('Réponse API de connexion:', response);
                 this.handleLoginSuccess(response.data);
             } else {
-                console.log('❌ Échec API de connexion:', response);
+                console.log('Échec API de connexion:', response);
                 throw new Error(response.message || 'Erreur de connexion');
             }
 
@@ -234,13 +228,13 @@ Ce compte est configuré pour la connexion administrateur.`;
         }
     }
 
-    // ========================================
-    // MÉTHODE CORRIGÉE - FINI LE PROBLÈME DU FORMULAIRE QUI SE VIDE
-    // ========================================
+    /**
+     * Gère le succès de la connexion
+     */
     handleLoginSuccess(userData) {
-        console.log('✅ Connexion réussie, données reçues:', userData);
+        console.log('Connexion réussie, données reçues:', userData);
         
-        // 1. Sauvegarder IMMÉDIATEMENT les données d'authentification
+        // Sauvegarder immédiatement les données d'authentification
         sessionStorage.setItem('authToken', userData.token);
         
         // Gérer les différentes structures possibles de userData
@@ -258,14 +252,14 @@ Ce compte est configuré pour la connexion administrateur.`;
         }
         
         sessionStorage.setItem('userData', JSON.stringify(utilisateur));
-        console.log('💾 Données utilisateur sauvegardées:', utilisateur);
+        console.log('Données utilisateur sauvegardées:', utilisateur);
 
-        // 2. Nettoyer les tentatives de connexion
+        // Nettoyer les tentatives de connexion
         this.currentAttempts = 0;
         localStorage.removeItem('loginAttempts');
         localStorage.removeItem('lockoutTime');
 
-        // 3. DÉSACTIVER IMMÉDIATEMENT le formulaire pour éviter toute interaction
+        // Désactiver immédiatement le formulaire pour éviter toute interaction
         const form = document.getElementById('loginForm');
         const inputs = form.querySelectorAll('input, button');
         inputs.forEach(input => {
@@ -274,28 +268,26 @@ Ce compte est configuré pour la connexion administrateur.`;
             input.style.pointerEvents = 'none';
         });
 
-        // 4. Masquer le formulaire pour éviter qu'il soit visible pendant la transition
+        // Masquer le formulaire pour éviter qu'il soit visible pendant la transition
         form.style.transition = 'opacity 0.3s ease';
         form.style.opacity = '0.5';
 
-        // 5. Afficher le message de succès
+        // Afficher le message de succès
         const userName = utilisateur.nomUtilisateur || utilisateur.nom || 'Utilisateur';
         if (typeof showNotification === 'function') {
             showNotification(`Bienvenue ${userName} ! Redirection...`, 'success');
         }
 
-        // 6. Redirection avec délai minimal pour laisser le temps de voir le message
+        // Redirection avec délai minimal pour laisser le temps de voir le message
         setTimeout(() => {
-            console.log('🚀 Redirection vers le tableau de bord...');
+            console.log('Redirection vers le tableau de bord...');
             window.location.href = '../tableau-de-bord/index.html';
-        }, 500); // Délai réduit de 800ms à 500ms
+        }, 500);
     }
 
     handleLoginError(errorMessage) {
         this.currentAttempts++;
         localStorage.setItem('loginAttempts', this.currentAttempts.toString());
-
-        // Verrouillage désactivé, on ne bloque jamais
 
         const remaining = this.maxAttempts - this.currentAttempts;
         let message = 'Identifiants incorrects';
@@ -318,18 +310,8 @@ Ce compte est configuré pour la connexion administrateur.`;
         }
     }
 
-    // Suppression complète des fonctions liées au lockout :
-
     isLockedOut() {
-        return false; // Toujours false car désactivé
-    }
-
-    showLockoutMessage() {
-        // Ne fait rien
-    }
-
-    checkLockout() {
-        // Ne fait rien
+        return false; // Verrouillage désactivé
     }
 
     checkExistingSession() {
@@ -339,7 +321,7 @@ Ce compte est configuré pour la connexion administrateur.`;
         if (token && userData) {
             try {
                 const user = JSON.parse(userData);
-                console.log('🔍 Session trouvée:', user.nomUtilisateur || user.username);
+                console.log('Session trouvée:', user.nomUtilisateur || user.username);
 
                 setTimeout(() => {
                     if (confirm(`Session active pour ${user.nomUtilisateur || user.username}. Continuer vers le tableau de bord ?`)) {
@@ -381,9 +363,9 @@ Ce compte est configuré pour la connexion administrateur.`;
         }
     }
 
-    // ========================================
-    // MÉTHODE DE NETTOYAGE POUR ÉVITER LES FUITES MÉMOIRE
-    // ========================================
+    /**
+     * Méthode de nettoyage pour éviter les fuites mémoire
+     */
     destroy() {
         // Nettoyer les event listeners si nécessaire
         const form = document.getElementById('loginForm');
@@ -393,9 +375,7 @@ Ce compte est configuré pour la connexion administrateur.`;
     }
 }
 
-// ========================================
-// INITIALISATION
-// ========================================
+// Initialisation
 
 let connexionAdminInstance = null;
 
@@ -403,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
     connexionAdminInstance = new ConnexionAdmin();
     window.connexionAdmin = connexionAdminInstance;
 
-    console.log('🔐 Page de connexion initialisée');
+    console.log('Page de connexion initialisée');
 });
 
 // Nettoyage avant déchargement

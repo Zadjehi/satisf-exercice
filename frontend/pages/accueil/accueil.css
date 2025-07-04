@@ -1,23 +1,4 @@
-.section-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.section-header h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--gray-900);
-}
-
-.section-header p {
-    font-size: 1.1rem;
-    color: var(--gray-600);
-    max-width: 600px;
-    margin: 0 auto;
-}/* ========================================
-   STYLES PAGE D'ACCUEIL
-   ======================================== */
+/* Styles Page d'Accueil */
 
 /* Variables CSS */
 :root {
@@ -62,9 +43,7 @@ body {
     padding: 0 1rem;
 }
 
-/* ========================================
-   HEADER
-   ======================================== */
+/* Header */
 .header {
     background: var(--white);
     box-shadow: var(--shadow-sm);
@@ -141,9 +120,7 @@ body {
     cursor: pointer;
 }
 
-/* ========================================
-   HERO SECTION
-   ======================================== */
+/* Hero Section */
 .hero {
     background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
     padding: 4rem 0;
@@ -259,16 +236,27 @@ body {
     color: var(--gray-600);
 }
 
-/* ========================================
-   SECTIONS SUPPRIMÉES - Styles restants
-   ======================================== */
+/* Section Header */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
 
-/* Stats et Services sections supprimées du HTML */
-/* Garde uniquement les styles du fonctionnement */
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--gray-900);
+}
 
-/* ========================================
-   FONCTIONNEMENT SECTION
-   ======================================== */
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Fonctionnement Section */
 .how-it-works {
     padding: 4rem 0;
     background: var(--white);
@@ -334,9 +322,7 @@ body {
     color: var(--gray-600);
 }
 
-/* ========================================
-   CTA SECTION
-   ======================================== */
+/* CTA Section */
 .cta-section {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: var(--white);
@@ -359,9 +345,7 @@ body {
     margin-right: auto;
 }
 
-/* ========================================
-   FOOTER
-   ======================================== */
+/* Footer */
 .footer {
     background: var(--gray-900);
     color: var(--white);
@@ -416,9 +400,7 @@ body {
     color: var(--gray-300);
 }
 
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
+/* Responsive Design */
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;

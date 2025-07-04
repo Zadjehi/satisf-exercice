@@ -1,8 +1,4 @@
-// ========================================
-// MODÈLE UTILISATEUR
-// Fichier: backend/modeles/Utilisateur.js
-// ========================================
-
+// Modèle Utilisateur
 const { executerRequete, executerTransaction } = require('../config/database');
 const { 
     hasherMotDePasse, 

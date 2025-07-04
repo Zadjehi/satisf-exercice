@@ -1,24 +1,19 @@
-// ========================================
-// ROUTES DASHBOARD - VERSION CORRIGÉE
-// Fichier: backend/routes/dashboardRoutes.js
-// ========================================
-
+// Routes Dashboard
 const express = require('express');
 const router = express.Router();
 
-// 🔥 CORRECTION: Utiliser le bon nom de fichier
-// Essayer d'abord dashboardController.js, sinon créer une version simple
+// Utiliser le bon nom de fichier
 let DashboardControleur;
 try {
     DashboardControleur = require('../controleurs/dashboardController');
 } catch (error) {
-    console.warn('⚠️ dashboardController.js non trouvé, utilisation du contrôleur inline');
+    console.warn('dashboardController.js non trouvé, utilisation du contrôleur inline');
     
     // Contrôleur inline simple si le fichier n'existe pas
     DashboardControleur = {
         async obtenirStatistiques(req, res) {
             try {
-                console.log('📊 Récupération des statistiques dashboard (version inline)');
+                console.log('Récupération des statistiques dashboard (version inline)');
 
                 // Vérifier l'authentification
                 if (!req.utilisateur) {
@@ -98,7 +93,7 @@ try {
                     periode: 'Derniers 6 mois'
                 };
 
-                console.log('✅ Statistiques calculées:', stats);
+                console.log('Statistiques calculées:', stats);
 
                 res.json({
                     succes: true,
@@ -107,7 +102,7 @@ try {
                 });
 
             } catch (erreur) {
-                console.error('❌ Erreur récupération statistiques:', erreur);
+                console.error('Erreur récupération statistiques:', erreur);
                 res.status(500).json({
                     succes: false,
                     message: 'Erreur lors de la récupération des statistiques',
@@ -137,7 +132,7 @@ try {
                 });
 
             } catch (erreur) {
-                console.error('❌ Erreur statistiques temps réel:', erreur);
+                console.error('Erreur statistiques temps réel:', erreur);
                 res.status(500).json({
                     succes: false,
                     message: 'Erreur lors de la récupération des statistiques temps réel'
@@ -149,16 +144,8 @@ try {
 
 const { verifierAuthentification } = require('../middleware/authentification');
 
-// ========================================
-// TOUTES LES ROUTES SONT PROTÉGÉES
-// ========================================
-
 // Middleware pour toutes les routes du dashboard
 router.use(verifierAuthentification);
-
-// ========================================
-// ROUTES PRINCIPALES
-// ========================================
 
 /**
  * Obtenir les statistiques principales pour le tableau de bord

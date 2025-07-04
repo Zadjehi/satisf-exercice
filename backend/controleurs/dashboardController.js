@@ -1,21 +1,11 @@
-// ========================================
-// CONTRÔLEUR DASHBOARD CORRIGÉ
-// Fichier: backend/controleurs/dashboardControleur.js
-// ========================================
+// backend/controleurs/dashboardControleur.js
 
 const Enquete = require('../modeles/Enquete');
 const { executerRequete } = require('../config/database');
 
 class DashboardControleur {
-    /**
-     * CORRECTION PRINCIPALE - Obtenir les statistiques pour le tableau de bord
-     * GET /api/dashboard/stats
-     */
     static async obtenirStatistiques(req, res) {
         try {
-            console.log('📊 Récupération des statistiques dashboard pour:', req.utilisateur.nom_utilisateur || req.utilisateur.nom);
-
-            // Vérifier les permissions
             if (!req.utilisateur) {
                 return res.status(401).json({
                     succes: false,
@@ -24,7 +14,6 @@ class DashboardControleur {
                 });
             }
 
-            // Vérifier le rôle (admin, responsable qualité, directrice)
             const rolesAutorises = ['Administrateur', 'Responsable Qualité', 'Directrice Générale', 'SuperAdmin'];
             if (!rolesAutorises.includes(req.utilisateur.role)) {
                 return res.status(403).json({
@@ -34,15 +23,7 @@ class DashboardControleur {
                 });
             }
 
-            // CORRECTION 1: Calculer les statistiques directement dans le contrôleur
             const stats = await DashboardControleur.calculerStatistiquesCompletes();
-
-            console.log('✅ Statistiques calculées:', {
-                totalEnquetes: stats.totalEnquetes,
-                satisfactionMoyenne: stats.satisfactionMoyenne,
-                nombreMensuelles: stats.mensuelles.length,
-                nombreServices: stats.services.length
-            });
 
             res.json({
                 succes: true,
@@ -51,7 +32,6 @@ class DashboardControleur {
             });
 
         } catch (erreur) {
-            console.error('❌ Erreur récupération statistiques dashboard:', erreur);
             res.status(500).json({
                 succes: false,
                 message: 'Erreur lors de la récupération des statistiques',
@@ -61,14 +41,8 @@ class DashboardControleur {
         }
     }
 
-    /**
-     * CORRECTION 2: Calcule les statistiques complètes avec requêtes directes
-     */
     static async calculerStatistiquesCompletes() {
         try {
-            console.log('🔄 Calcul des statistiques complètes...');
-
-            // 1. Statistiques générales
             const [statsGenerales] = await executerRequete(`
                 SELECT 
                     COUNT(*) as total_enquetes,
@@ -82,13 +56,6 @@ class DashboardControleur {
             const satisfactionMoyenne = parseFloat(statsGenerales.taux_satisfaction) || 0;
             const insatisfactionMoyenne = 100 - satisfactionMoyenne;
 
-            console.log('📊 Stats générales:', {
-                total: totalEnquetes,
-                satisfaction: satisfactionMoyenne,
-                insatisfaction: insatisfactionMoyenne
-            });
-
-            // 2. Statistiques mensuelles (6 derniers mois)
             const mensuelles = await executerRequete(`
                 SELECT 
                     YEAR(date_heure_visite) as annee,
@@ -105,9 +72,6 @@ class DashboardControleur {
                 LIMIT 6
             `);
 
-            console.log('📅 Stats mensuelles:', mensuelles.length);
-
-            // 3. Statistiques par service
             const services = await executerRequete(`
                 SELECT 
                     s.nom_service,
@@ -123,9 +87,6 @@ class DashboardControleur {
                 ORDER BY nombre_enquetes DESC
             `);
 
-            console.log('🏥 Stats services:', services.length);
-
-            // 4. Statistiques récentes (aujourd'hui, cette semaine, ce mois)
             const [statsRecentes] = await executerRequete(`
                 SELECT 
                     COUNT(CASE WHEN DATE(date_soumission) = CURDATE() THEN 1 END) as aujourd_hui,
@@ -134,9 +95,6 @@ class DashboardControleur {
                 FROM enquetes
             `);
 
-            console.log('📈 Stats récentes:', statsRecentes);
-
-            // 5. Calculer les tendances (simulation basée sur les données)
             const tendances = {
                 enquetes: totalEnquetes > 50 ? 12 : totalEnquetes > 20 ? 8 : totalEnquetes > 0 ? 5 : 0,
                 satisfaction: satisfactionMoyenne > 80 ? 5 : satisfactionMoyenne > 60 ? 3 : satisfactionMoyenne > 40 ? 0 : -2,
@@ -156,9 +114,6 @@ class DashboardControleur {
             };
 
         } catch (erreur) {
-            console.error('❌ Erreur calcul statistiques complètes:', erreur);
-            
-            // Retourner des données par défaut en cas d'erreur
             return {
                 totalEnquetes: 0,
                 satisfactionMoyenne: 0,
@@ -181,13 +136,8 @@ class DashboardControleur {
         }
     }
 
-    /**
-     * Obtenir les statistiques en temps réel
-     * GET /api/dashboard/live
-     */
     static async obtenirStatistiquesTempsReel(req, res) {
         try {
-            // Vérifier l'authentification
             if (!req.utilisateur) {
                 return res.status(401).json({
                     succes: false,
@@ -195,7 +145,6 @@ class DashboardControleur {
                 });
             }
 
-            // Statistiques simplifiées pour le temps réel
             const [statsTempsReel] = await executerRequete(`
                 SELECT 
                     COUNT(CASE WHEN DATE(date_soumission) = CURDATE() THEN 1 END) as enquetes_aujourd_hui,
@@ -215,7 +164,6 @@ class DashboardControleur {
             });
 
         } catch (erreur) {
-            console.error('❌ Erreur statistiques temps réel:', erreur);
             res.status(500).json({
                 succes: false,
                 message: 'Erreur lors de la récupération des statistiques temps réel'

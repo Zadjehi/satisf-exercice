@@ -1,8 +1,4 @@
-// ========================================
-// ROUTES SERVICES
-// Fichier: backend/routes/serviceRoutes.js
-// ========================================
-
+// Routes Services
 const express = require('express');
 const router = express.Router();
 

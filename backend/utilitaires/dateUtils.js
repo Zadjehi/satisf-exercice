@@ -1,7 +1,4 @@
-// ========================================
-// UTILITAIRES DATE
-// Fichier: backend/utilitaires/dateUtils.js
-// ========================================
+// Utilitaires Date
 
 /**
  * Formate une date au format français (DD/MM/YYYY)
@@ -242,7 +239,8 @@ const formaterPourInput = (date = new Date()) => {
 };
 
 /**
- * Obtient la liste des 12 derniers mois
+ * Obtient la liste des N derniers mois
+ * @param {number} nombreMois - Nombre de mois à récupérer
  * @returns {Array} Liste des mois avec année
  */
 const obtenirDerniersNMois = (nombreMois = 12) => {
